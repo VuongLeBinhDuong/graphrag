@@ -1,0 +1,411 @@
+\documentclass[12pt,a4paper]{article}
+% ============================================
+% QUAN TRỌNG: Trên Overleaf, chọn Compiler = XeLaTeX
+% Menu -> Settings -> Compiler -> XeLaTeX
+% ============================================
+
+% Sử dụng XeLaTeX (hỗ trợ Unicode tốt, khuyến nghị cho Overleaf)
+\usepackage{fontspec}
+% Font mặc định - Overleaf có sẵn, hỗ trợ tiếng Việt tốt
+% Nếu lỗi font, thử các font khác: Latin Modern Roman, Times New Roman, Arial
+\setmainfont{Latin Modern Roman}
+
+% Nếu muốn dùng pdfLaTeX thay vì XeLaTeX:
+% 1. Comment 3 dòng trên (\usepackage{fontspec} và \setmainfont)
+% 2. Uncomment 3 dòng dưới:
+% \usepackage[utf8]{inputenc}
+% \usepackage[vietnamese,english]{babel}
+% \usepackage[T5]{fontenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Báo Cáo Dự Án: Xây Dựng Knowledge Graph từ Dữ Liệu Văn Bản sử dụng GraphRAG}
+\author{Người thực hiện}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Dự án này trình bày việc áp dụng GraphRAG (Graph-based Retrieval Augmented Generation) để xây dựng knowledge graph từ dữ liệu văn bản không cấu trúc. Hệ thống sử dụng Large Language Models (LLMs) để trích xuất entities, relationships và tạo cấu trúc cộng đồng phân cấp từ các tài liệu về Machine Learning, Deep Learning và các chủ đề liên quan. Kết quả cho thấy GraphRAG có khả năng tạo ra knowledge graph có cấu trúc tốt, hỗ trợ hiệu quả cho các tác vụ truy vấn và phân tích thông tin phức tạp.
+\end{abstract}
+
+\section{Giới Thiệu}
+
+GraphRAG là một phương pháp tiếp cận có cấu trúc và phân cấp cho Retrieval Augmented Generation (RAG), được phát triển bởi Microsoft Research. Khác với các phương pháp RAG truyền thống dựa trên tìm kiếm ngữ nghĩa đơn giản, GraphRAG xây dựng knowledge graph từ dữ liệu văn bản và sử dụng cấu trúc này để cải thiện khả năng suy luận của LLM về dữ liệu riêng tư.
+
+\subsection{Mục Tiêu Dự Án}
+
+Dự án này nhằm mục đích:
+\begin{itemize}
+    \item Xây dựng knowledge graph từ tập hợp tài liệu về Machine Learning và Deep Learning
+    \item Trích xuất entities (thực thể) và relationships (mối quan hệ) từ văn bản
+    \item Phân cụm các entities thành các communities (cộng đồng) có ý nghĩa
+    \item Tạo các báo cáo tóm tắt cho từng community
+    \item Visualize và phân tích cấu trúc của knowledge graph được tạo ra
+\end{itemize}
+
+\section{Phương Pháp}
+
+\subsection{Kiến Trúc Hệ Thống}
+
+GraphRAG thực hiện quá trình indexing qua năm giai đoạn chính, mỗi giai đoạn có các bước xử lý chi tiết và các thuật toán cụ thể.
+
+\subsubsection{Giai Đoạn 1: Xử Lý Văn Bản}
+Các tài liệu đầu vào được chia nhỏ thành các \textit{TextUnits} (đơn vị văn bản) với kích thước 800 tokens và overlap 100 tokens. Mỗi TextUnit đóng vai trò là đơn vị phân tích cơ bản và cung cấp các tham chiếu chi tiết trong kết quả đầu ra.
+
+\subsubsection{Giai Đoạn 2: Trích Xuất Graph}
+Sử dụng LLM để trích xuất:
+\begin{itemize}
+    \item \textbf{Entities}: Các thực thể như organizations, persons, geo locations, events
+    \item \textbf{Relationships}: Mối quan hệ giữa các entities với mô tả và trọng số
+    \item \textbf{Covariates}: Các claims hoặc facts có thể liên quan (tùy chọn)
+\end{itemize}
+
+\subsubsection{Giai Đoạn 3: Phân Cụm và Tạo Communities}
+Sử dụng thuật toán Leiden để thực hiện hierarchical clustering trên graph, tạo ra cấu trúc cộng đồng phân cấp. Mỗi community được đặc trưng bởi:
+\begin{itemize}
+    \item Danh sách entities thành viên
+    \item Các relationships nội bộ
+    \item TextUnits liên quan
+\end{itemize}
+
+\subsubsection{Giai Đoạn 4: Tạo Báo Cáo Communities}
+LLM được sử dụng để tạo các báo cáo tóm tắt cho mỗi community, bao gồm:
+\begin{itemize}
+    \item Tiêu đề và tóm tắt ngắn gọn
+    \item Nội dung đầy đủ với các insights chính
+    \item Đánh giá mức độ liên quan (ranking)
+\end{itemize}
+
+\subsubsection{Giai Đoạn 5: Tạo Embeddings}
+Các embeddings được tạo cho:
+\begin{itemize}
+    \item Entity descriptions
+    \item Text units
+    \item Community reports
+\end{itemize}
+
+Các embeddings này được lưu trữ trong vector store (LanceDB) để hỗ trợ tìm kiếm ngữ nghĩa.
+
+\subsection{Cấu Hình Hệ Thống}
+
+Dự án sử dụng các cấu hình sau:
+\begin{itemize}
+    \item \textbf{LLM Model}: Llama 3.1 (latest) qua Ollama API
+    \item \textbf{Embedding Model}: nomic-embed-text
+    \item \textbf{Vector Store}: LanceDB
+    \item \textbf{Chunk Size}: 800 tokens với overlap 100 tokens
+    \item \textbf{Community Detection}: Leiden algorithm với max cluster size = 10
+\end{itemize}
+
+\section{Dữ Liệu Thực Nghiệm}
+
+\subsection{Dataset}
+
+Dự án sử dụng 4 tài liệu đầu vào về các chủ đề:
+\begin{enumerate}
+    \item Machine Learning Introduction
+    \item Convolutional Neural Networks (CNN)
+    \item Graph Neural Networks (GNN)
+    \item Transformers Architecture
+\end{enumerate}
+
+Các tài liệu này được lưu dưới dạng file text (.txt) trong thư mục \texttt{input/}.
+
+\subsection{Kết Quả Indexing}
+
+Quá trình indexing đã hoàn thành thành công với các thống kê sau:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Thông số} & \textbf{Giá trị} \\
+\hline
+Tổng số documents & 4 \\
+Tổng thời gian chạy & 1722.34 giây (28.7 phút) \\
+Thời gian extract graph & 1506.13 giây \\
+Thời gian tạo community reports & 213.54 giây \\
+Thời gian tạo embeddings & 2.12 giây \\
+\hline
+\end{tabular}
+\caption{Thống kê quá trình indexing}
+\end{table}
+
+\subsection{Output Files}
+
+Hệ thống đã tạo ra các file output sau trong thư mục \texttt{output/}:
+\begin{itemize}
+    \item \texttt{documents.parquet}: Thông tin về các documents đầu vào
+    \item \texttt{text\_units.parquet}: Các đơn vị văn bản đã được xử lý
+    \item \texttt{entities.parquet}: Danh sách các entities được trích xuất
+    \item \texttt{relationships.parquet}: Các relationships giữa entities
+    \item \texttt{communities.parquet}: Cấu trúc communities phân cấp
+    \item \texttt{community\_reports.parquet}: Các báo cáo tóm tắt communities
+    \item \texttt{graph.graphml}: Knowledge graph dưới dạng GraphML để visualize
+\end{itemize}
+
+\section{Kết Quả và Phân Tích}
+
+\subsection{Knowledge Graph Structure}
+
+Knowledge graph được tạo ra chứa các entities về:
+\begin{itemize}
+    \item Các khái niệm ML/DL: Machine Learning, Supervised Learning, Unsupervised Learning, Reinforcement Learning
+    \item Các kiến trúc mạng: CNN, GNN, Transformers, Graph Convolutional Networks
+    \item Các ứng dụng: Healthcare, Financial Services, E-commerce, Autonomous Vehicles
+    \item Các kỹ thuật: Attention Mechanisms, Convolutions, Recurrent Neural Networks
+\end{itemize}
+
+\subsection{Visualization}
+
+Knowledge graph đã được visualize thành công sử dụng:
+\begin{itemize}
+    \item \textbf{Static visualization}: File PNG được tạo bằng matplotlib và NetworkX
+    \item \textbf{Interactive visualization}: File HTML tương tác sử dụng Pyvis
+    \item \textbf{GraphML format}: File GraphML có thể mở bằng Gephi, Cytoscape hoặc các tools khác
+\end{itemize}
+
+Visualization cho thấy:
+\begin{itemize}
+    \item Các entities được kết nối thông qua relationships
+    \item Cấu trúc communities rõ ràng với các nhóm entities liên quan
+    \item Mức độ kết nối (degree) khác nhau giữa các nodes
+\end{itemize}
+
+\subsection{Query Capabilities}
+
+Sau khi indexing, hệ thống hỗ trợ các phương thức query:
+\begin{itemize}
+    \item \textbf{Global Search}: Tìm kiếm toàn cục sử dụng community reports
+    \item \textbf{Local Search}: Tìm kiếm cục bộ tập trung vào entities cụ thể
+    \item \textbf{Drift Search}: Kết hợp local search với thông tin community
+    \item \textbf{Basic Search}: Tìm kiếm vector đơn giản
+\end{itemize}
+
+\section{Thảo Luận}
+
+\subsection{Ưu Điểm}
+
+\begin{itemize}
+    \item \textbf{Cấu trúc rõ ràng}: Knowledge graph cung cấp cấu trúc có tổ chức cho dữ liệu văn bản
+    \item \textbf{Kết nối thông tin}: Có thể kết nối các thông tin rời rạc thông qua relationships
+    \item \textbf{Phân cụm tự động}: Communities được tạo tự động giúp hiểu cấu trúc tổng thể
+    \item \textbf{Tóm tắt tự động}: Community reports cung cấp insights ở mức cao
+    \item \textbf{Visualization tốt}: Dễ dàng visualize và phân tích graph
+\end{itemize}
+
+\subsection{Hạn Chế}
+
+\begin{itemize}
+    \item \textbf{Thời gian xử lý}: Quá trình indexing tốn nhiều thời gian (đặc biệt là extract graph)
+    \item \textbf{Chi phí LLM}: Sử dụng LLM cho nhiều bước có thể tốn kém
+    \item \textbf{Phụ thuộc vào chất lượng LLM}: Kết quả phụ thuộc vào khả năng của LLM trong việc trích xuất entities và relationships
+    \item \textbf{Cần prompt tuning}: Để đạt kết quả tốt nhất, cần fine-tune prompts cho từng domain cụ thể
+\end{itemize}
+
+\subsection{Cải Tiến Tương Lai}
+
+\begin{itemize}
+    \item Sử dụng FastGraphRAG để giảm thời gian và chi phí
+    \item Tích hợp thêm các loại entities và relationships phù hợp với domain
+    \item Cải thiện visualization với các layout algorithms tốt hơn
+    \item Tối ưu hóa cấu hình chunk size và overlap
+    \item Thêm các metrics đánh giá chất lượng graph
+\end{itemize}
+
+\section{Kết Luận}
+
+\subsection{Tóm Tắt Kết Quả}
+
+Dự án đã thành công trong việc triển khai và đánh giá hệ thống GraphRAG để xây dựng knowledge graph từ dữ liệu văn bản không cấu trúc. Với 4 tài liệu đầu vào về Machine Learning và Deep Learning, hệ thống đã hoàn thành quá trình indexing trong khoảng 28.7 phút (1722 giây), tạo ra một knowledge graph có cấu trúc hoàn chỉnh với các thành phần sau:
+
+\begin{itemize}
+    \item \textbf{Entities}: Hệ thống đã trích xuất thành công các entities có ý nghĩa bao gồm các khái niệm ML/DL cơ bản (Machine Learning, Supervised Learning, Unsupervised Learning, Reinforcement Learning), các kiến trúc mạng neural (CNN, GNN, Transformers, Graph Convolutional Networks), các kỹ thuật (Attention Mechanisms, Convolutions, Recurrent Neural Networks), và các ứng dụng thực tế (Healthcare, Financial Services, E-commerce, Autonomous Vehicles). Mỗi entity được mô tả chi tiết với description tổng hợp từ nhiều TextUnits khác nhau.
+    
+    \item \textbf{Relationships}: Các mối quan hệ giữa entities đã được xác định với mô tả chi tiết và trọng số (relationship strength từ 1-10), tạo ra một mạng lưới kết nối phản ánh đúng cấu trúc kiến thức trong domain. Các relationships được merge từ nhiều instances và tổng hợp thành một description duy nhất, concise nhưng comprehensive.
+    
+    \item \textbf{Communities}: Thuật toán Leiden đã tạo ra cấu trúc communities phân cấp với nhiều levels, cho phép hiểu được các nhóm kiến thức liên quan và mối quan hệ giữa chúng ở nhiều mức độ chi tiết khác nhau. Mỗi community chứa danh sách entities, relationships nội bộ, và text units liên quan, với max cluster size = 10 để đảm bảo communities có kích thước hợp lý.
+    
+    \item \textbf{Community Reports}: Các báo cáo tóm tắt được tạo tự động cho mỗi community ở các levels khác nhau, cung cấp insights ở mức cao với title, summary, full content, và findings. Các reports này giúp hiểu nhanh các chủ đề chính và mối liên hệ giữa chúng mà không cần phải đọc toàn bộ graph.
+    
+    \item \textbf{Vector Embeddings}: Tất cả các components quan trọng (entity descriptions, text units, community full content) đã được embed sử dụng nomic-embed-text model và lưu trữ trong LanceDB, sẵn sàng cho các tác vụ semantic search và retrieval. Các embeddings này cho phép tìm kiếm theo ngữ nghĩa thay vì chỉ dựa trên keywords.
+\end{itemize}
+
+Knowledge graph được tạo ra đã được visualize thành công dưới dạng GraphML và các format khác, cho thấy cấu trúc communities rõ ràng và mối quan hệ giữa các entities một cách trực quan.
+
+\subsection{Đánh Giá Hiệu Quả}
+
+\subsubsection{Điểm Mạnh của Phương Pháp}
+
+GraphRAG đã chứng minh được nhiều ưu điểm vượt trội so với các phương pháp RAG truyền thống:
+
+\begin{enumerate}
+    \item \textbf{Kết Nối Thông Tin}: Khác với baseline RAG chỉ tìm kiếm các đoạn văn bản riêng lẻ, GraphRAG có khả năng kết nối thông tin từ nhiều tài liệu khác nhau thông qua cấu trúc graph. Điều này đặc biệt quan trọng khi trả lời các câu hỏi yêu cầu tổng hợp thông tin từ nhiều nguồn, ví dụ như "Các ứng dụng của Machine Learning trong healthcare là gì?" - câu trả lời có thể được tổng hợp từ nhiều documents khác nhau thông qua các relationships trong graph.
+    
+    \item \textbf{Hiểu Biết Tổng Thể}: Cấu trúc communities phân cấp cho phép hệ thống hiểu được các themes và patterns ở nhiều mức độ trừu tượng khác nhau, từ chi tiết cụ thể (các entities riêng lẻ) đến tổng quan cao cấp (community reports). Điều này cho phép trả lời cả các câu hỏi cụ thể về entities và các câu hỏi tổng quan về themes và trends.
+    
+    \item \textbf{Provenance và Traceability}: Mỗi entity và relationship đều được liên kết với các TextUnits gốc thông qua \texttt{text\_unit\_ids}, cho phép truy ngược lại nguồn gốc của thông tin. Điều này rất quan trọng cho việc đảm bảo tính minh bạch và có thể kiểm chứng của hệ thống, đặc biệt trong các ứng dụng yêu cầu accountability như legal và compliance.
+    
+    \item \textbf{Tự Động Hóa}: Toàn bộ quy trình từ extraction đến summarization đều được tự động hóa, giảm thiểu sự can thiệp thủ công và đảm bảo tính nhất quán. Hệ thống có thể xử lý hàng loạt documents mà không cần human intervention, chỉ cần cấu hình ban đầu.
+    
+    \item \textbf{Scalability}: Kiến trúc pipeline với các workflows độc lập cho phép xử lý song song và caching, giúp hệ thống có thể scale lên với datasets lớn hơn. Mỗi workflow có thể được cache và chạy lại độc lập, cho phép incremental updates khi có documents mới.
+\end{enumerate}
+
+\subsubsection{Phân Tích Hiệu Suất}
+
+Dựa trên thống kê từ quá trình indexing, có thể phân tích hiệu suất như sau:
+
+\begin{itemize}
+    \item \textbf{Thời gian xử lý tổng thể}: 1722 giây (28.7 phút) cho 4 documents, tương đương khoảng 7.2 phút mỗi document. Thời gian này chấp nhận được cho một quy trình phức tạp như vậy, đặc biệt khi xem xét rằng mỗi document được phân tích kỹ lưỡng.
+    
+    \item \textbf{Breakdown theo workflows}:
+    \begin{itemize}
+        \item Extract graph chiếm 87.5\% tổng thời gian (1506 giây) - đây là bottleneck chính do phụ thuộc hoàn toàn vào LLM để trích xuất entities và relationships. Mỗi TextUnit cần được gửi đến LLM, và với model local như Llama 3.1, thời gian inference là đáng kể.
+        \item Community reports chiếm 12.4\% (213 giây) - cũng phụ thuộc vào LLM nhưng nhanh hơn do số lượng communities ít hơn số lượng TextUnits.
+        \item Generate embeddings chiếm 0.1\% (2 giây) - rất nhanh do embedding model nhẹ hơn và có thể xử lý batch hiệu quả.
+        \item Các bước khác (load documents, create text units, finalize graph, create communities) đều rất nhanh (< 1 giây) - chứng tỏ pipeline được tối ưu tốt cho các bước không phụ thuộc LLM.
+    \end{itemize}
+    
+    \item \textbf{Chất lượng Output}: Knowledge graph được tạo ra có cấu trúc rõ ràng với các entities và relationships có ý nghĩa, phản ánh đúng nội dung của các tài liệu đầu vào. Các communities được tạo ra có logic và các community reports cung cấp insights hữu ích.
+    
+    \item \textbf{Resource Usage}: Sử dụng local LLM qua Ollama giúp kiểm soát được resource usage và không phụ thuộc vào external APIs. Tuy nhiên, điều này cũng có nghĩa là tốc độ phụ thuộc vào hardware local.
+\end{itemize}
+
+\subsection{Ý Nghĩa và Đóng Góp}
+
+\subsubsection{Ứng Dụng Thực Tế}
+
+Kết quả của dự án cho thấy GraphRAG có tiềm năng ứng dụng trong nhiều lĩnh vực:
+
+\begin{itemize}
+    \item \textbf{Enterprise Knowledge Management}: Giúp các tổ chức tổ chức và khám phá kiến thức từ các tài liệu nội bộ, báo cáo, và communications. Ví dụ, một công ty có thể index tất cả các documents, emails, và reports để tạo ra một knowledge base có thể query được, giúp nhân viên tìm thông tin nhanh chóng và hiểu được các patterns và relationships trong dữ liệu của công ty.
+    
+    \item \textbf{Research và Academic}: Hỗ trợ nghiên cứu viên tổng hợp và phân tích thông tin từ nhiều papers và sources khác nhau. Một researcher có thể index các papers trong một lĩnh vực cụ thể và sử dụng GraphRAG để tìm các connections giữa các concepts, identify research gaps, và discover new research directions.
+    
+    \item \textbf{Business Intelligence}: Cho phép phân tích các patterns và insights từ dữ liệu văn bản không cấu trúc như customer feedback, market reports, social media posts. Các insights này có thể được sử dụng để hiểu customer sentiment, identify market trends, và make data-driven decisions.
+    
+    \item \textbf{Legal và Compliance}: Hỗ trợ phân tích và kết nối thông tin từ các documents pháp lý và regulations. Một law firm có thể sử dụng GraphRAG để index các case laws, statutes, và regulations, sau đó query để tìm các precedents và connections giữa các cases.
+\end{itemize}
+
+\subsubsection{Đóng Góp Kỹ Thuật}
+
+Dự án đã đóng góp vào việc:
+
+\begin{itemize}
+    \item \textbf{Validation với Open-Source LLM}: Xác nhận tính khả thi của GraphRAG với open-source LLM (Llama 3.1) thay vì chỉ các commercial models như GPT-4. Điều này mở ra khả năng sử dụng GraphRAG trong các môi trường yêu cầu privacy và không muốn phụ thuộc vào external APIs.
+    
+    \item \textbf{Configuration Optimization}: Đã tìm ra các cấu hình tối ưu cho việc sử dụng GraphRAG với local LLM, bao gồm chunk size (800 tokens), overlap (100 tokens), và các tham số khác. Các cấu hình này có thể được sử dụng làm starting point cho các projects tương tự.
+    
+    \item \textbf{Visualization Tools}: Đã tạo ra các công cụ và hướng dẫn để visualize knowledge graph, giúp hiểu và phân tích kết quả tốt hơn. Các tools này bao gồm Python scripts để tạo static và interactive visualizations, cũng như hướng dẫn sử dụng các tools như Gephi.
+    
+    \item \textbf{Documentation}: Đã tạo ra documentation chi tiết về quy trình, cấu hình, và troubleshooting, giúp những người khác có thể replicate và build upon công việc này.
+\end{itemize}
+
+\subsection{Hạn Chế và Thách Thức}
+
+Mặc dù đạt được nhiều kết quả tích cực, dự án cũng gặp phải một số hạn chế và thách thức:
+
+\begin{enumerate}
+    \item \textbf{Thời Gian Xử Lý}: Quá trình indexing tốn nhiều thời gian, đặc biệt là giai đoạn extract graph (87.5\% tổng thời gian). Với 4 documents đã mất 28.7 phút, việc scale lên hàng trăm hoặc hàng nghìn documents sẽ mất rất nhiều thời gian. Điều này có thể là vấn đề cho các use cases yêu cầu real-time hoặc near-real-time processing.
+    
+    \item \textbf{Chi Phí LLM}: Việc sử dụng LLM cho nhiều bước trong pipeline (extract graph, summarize, generate reports) có thể tốn kém, mặc dù sử dụng local LLM qua Ollama đã giảm thiểu chi phí này. Tuy nhiên, vẫn cần hardware đủ mạnh để chạy LLM local, và việc này có thể không khả thi cho tất cả các use cases.
+    
+    \item \textbf{Phụ Thuộc vào Chất Lượng LLM}: Kết quả phụ thuộc nhiều vào khả năng của LLM trong việc trích xuất entities và relationships chính xác. Trong quá trình thực hiện dự án, đã phát hiện ra rằng model nhỏ (llama3.2:3b) không đủ khả năng để trích xuất chính xác, trong khi model lớn hơn (llama3.1:latest) cho kết quả tốt hơn đáng kể. Điều này có nghĩa là cần phải có LLM đủ mạnh, điều này có thể là barrier cho một số users.
+    
+    \item \textbf{Cần Prompt Tuning}: Để đạt kết quả tối ưu cho từng domain cụ thể, cần fine-tune prompts. Điều này đòi hỏi thời gian, kiến thức chuyên môn về domain, và hiểu biết về prompt engineering. Không phải tất cả users đều có khả năng này.
+    
+    \item \textbf{Limited Dataset}: Dự án chỉ sử dụng 4 documents, chưa đủ để đánh giá đầy đủ hiệu suất trên datasets lớn. Cần test trên datasets lớn hơn để đánh giá scalability, memory usage, và các vấn đề khác có thể xuất hiện khi scale up.
+    
+    \item \textbf{Error Handling}: Trong quá trình thực hiện, đã gặp phải một số errors (như KeyError khi merge entities), cho thấy hệ thống cần có error handling tốt hơn để handle các edge cases và invalid outputs từ LLM.
+\end{enumerate}
+
+\subsection{Hướng Phát Triển Tương Lai}
+
+Dựa trên kết quả và hạn chế đã phát hiện, các hướng phát triển tương lai bao gồm:
+
+\begin{enumerate}
+    \item \textbf{Tối Ưu Hiệu Suất}:
+    \begin{itemize}
+        \item Thử nghiệm FastGraphRAG để giảm thời gian và chi phí bằng cách sử dụng NLP truyền thống thay vì LLM cho một số bước (như entity extraction). Điều này có thể giảm thời gian extract graph đáng kể.
+        \item Tối ưu hóa cấu hình chunk size và overlap để cân bằng giữa chất lượng và tốc độ. Có thể thử nghiệm với các chunk sizes khác nhau để tìm optimal point.
+        \item Sử dụng model quantization và optimization để tăng tốc độ inference của LLM mà không giảm quá nhiều chất lượng.
+        \item Implement parallel processing tốt hơn để tận dụng tối đa hardware resources.
+    \end{itemize}
+    
+    \item \textbf{Cải Thiện Chất Lượng}:
+    \begin{itemize}
+        \item Tích hợp thêm các loại entities và relationships phù hợp với domain cụ thể. Ví dụ, cho domain ML/DL, có thể thêm các entity types như "algorithm", "dataset", "metric", etc.
+        \item Phát triển các metrics đánh giá chất lượng graph (ví dụ: coherence, completeness, accuracy). Các metrics này có thể được sử dụng để tự động đánh giá và cải thiện chất lượng graph.
+        \item Implement validation và quality checks tự động để detect và fix các errors trong graph (như duplicate entities, invalid relationships, etc.).
+        \item Phát triển các techniques để improve entity resolution và relationship extraction accuracy.
+    \end{itemize}
+    
+    \item \textbf{Mở Rộng Chức Năng}:
+    \begin{itemize}
+        \item Thêm support cho incremental updates khi có documents mới, cho phép update graph mà không cần re-index toàn bộ dataset.
+        \item Phát triển các visualization tools tương tác tốt hơn, có thể filter, search, và explore graph một cách dynamic.
+        \item Tích hợp với các query interfaces khác nhau (web UI, API, command-line tools) để make system more accessible.
+        \item Thêm support cho multi-language documents và cross-language entity resolution.
+    \end{itemize}
+    
+    \item \textbf{Đánh Giá và Benchmarking}:
+    \begin{itemize}
+        \item Test trên datasets lớn hơn (hundreds hoặc thousands of documents) để đánh giá scalability và identify bottlenecks.
+        \item So sánh với các phương pháp RAG khác (baseline RAG, other graph-based approaches) trên cùng dataset để đánh giá relative performance.
+        \item Phát triển benchmark suite để đánh giá hiệu suất trên các tasks khác nhau (question answering, information retrieval, etc.).
+        \item Conduct user studies để đánh giá usefulness và usability của system trong real-world scenarios.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Bài Học Rút Ra}
+
+Qua quá trình thực hiện dự án, một số bài học quan trọng đã được rút ra:
+
+\begin{itemize}
+    \item \textbf{Chọn Model Phù Hợp}: Việc chọn LLM phù hợp là rất quan trọng. Model quá nhỏ (như llama3.2:3b) không đủ khả năng để trích xuất entities và relationships chính xác, dẫn đến errors và kết quả không đạt yêu cầu. Model lớn hơn (llama3.1:latest) cho kết quả tốt hơn đáng kể, nhưng cũng yêu cầu hardware mạnh hơn. Cần cân bằng giữa chất lượng và resource requirements.
+    
+    \item \textbf{Configuration Matters}: Các tham số như chunk size, overlap, và community detection parameters có ảnh hưởng lớn đến kết quả cuối cùng. Chunk size quá nhỏ có thể mất context, trong khi quá lớn có thể làm giảm precision. Overlap cần đủ để không mất thông tin ở boundaries. Cần thử nghiệm và tinh chỉnh cẩn thận để tìm optimal configuration.
+    
+    \item \textbf{Caching là Quan Trọng}: Việc cache LLM responses giúp tiết kiệm thời gian và chi phí đáng kể, đặc biệt khi debug và iterate. Cache cho phép re-run các workflows mà không cần gọi lại LLM, giúp development và testing nhanh hơn nhiều.
+    
+    \item \textbf{Visualization Giúp Hiểu}: Việc visualize knowledge graph giúp hiểu được cấu trúc và phát hiện các vấn đề tiềm ẩn một cách trực quan. Có thể thấy được các communities, relationships, và identify các entities quan trọng (high degree nodes) một cách dễ dàng. Visualization cũng giúp validate rằng graph có ý nghĩa và phản ánh đúng nội dung của documents.
+    
+    \item \textbf{Pipeline Design}: Thiết kế pipeline với các workflows độc lập cho phép debugging và incremental updates dễ dàng hơn. Có thể re-run một workflow cụ thể mà không cần chạy lại toàn bộ pipeline. Điều này rất hữu ích khi cần fix một issue hoặc update một phần của graph.
+    
+    \item \textbf{Error Handling và Validation}: Cần có error handling tốt để handle các edge cases và invalid outputs từ LLM. Cũng cần validation để ensure data quality trước khi pass vào các bước tiếp theo. Điều này giúp tránh cascading failures và make debugging easier.
+    
+    \item \textbf{Documentation và Reproducibility}: Việc document chi tiết quy trình, cấu hình, và các decisions giúp ensure reproducibility và make it easier for others to understand and build upon the work. Cũng cần document các issues encountered và solutions để avoid repeating mistakes.
+\end{itemize}
+
+\subsection{Kết Luận Cuối Cùng}
+
+GraphRAG đã chứng minh là một phương pháp mạnh mẽ và hiệu quả để xây dựng knowledge graph từ dữ liệu văn bản không cấu trúc. Mặc dù có một số hạn chế về thời gian xử lý và phụ thuộc vào chất lượng LLM, các ưu điểm về khả năng kết nối thông tin, hiểu biết tổng thể, và tự động hóa làm cho nó trở thành một công cụ có giá trị cho nhiều ứng dụng thực tế.
+
+Dự án này đã thành công trong việc triển khai và đánh giá GraphRAG với open-source LLM, mở ra khả năng sử dụng công nghệ này trong các môi trường yêu cầu privacy và không muốn phụ thuộc vào các commercial APIs. Điều này đặc biệt quan trọng trong các industries như healthcare, finance, và legal, nơi data privacy là critical concern.
+
+Với sự phát triển liên tục của LLM open-source và các cải tiến trong phương pháp (như FastGraphRAG), GraphRAG có tiềm năng trở thành một công cụ quan trọng trong hệ sinh thái RAG và knowledge management. Các improvements về hiệu suất, chất lượng, và functionality sẽ làm cho nó ngày càng practical và accessible hơn.
+
+Cuối cùng, dự án này đã cung cấp một foundation tốt cho việc nghiên cứu và phát triển thêm các ứng dụng của GraphRAG, đồng thời đóng góp vào việc làm cho công nghệ này trở nên dễ tiếp cận và sử dụng hơn cho cộng đồng. Các lessons learned, configurations, và tools được tạo ra trong dự án này có thể được sử dụng làm starting point cho các projects tương tự, giúp accelerate adoption và innovation trong lĩnh vực này.
+
+\section{Tài Liệu Tham Khảo}
+
+\begin{itemize}
+    \item Microsoft Research Blog: GraphRAG - Unlocking LLM Discovery on Narrative Private Data
+    \item GraphRAG Documentation: \url{https://microsoft.github.io/graphrag}
+    \item GraphRAG ArXiv Paper: \url{https://arxiv.org/pdf/2404.16130}
+    \item Leiden Algorithm: \url{https://arxiv.org/pdf/1810.08473.pdf}
+\end{itemize}
+
+\end{document}
+

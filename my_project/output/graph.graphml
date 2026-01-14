@@ -1,0 +1,407 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d0" for="edge" attr.name="weight" attr.type="double" />
+  <graph edgedefault="undirected">
+    <node id="ARTIFICIAL INTELLIGENCE" />
+    <node id="MACHINE LEARNING" />
+    <node id="SUPERVISED LEARNING" />
+    <node id="CLASSIFICATION AND REGRESSION TASKS" />
+    <node id="UNSUPERVISED LEARNING" />
+    <node id="CLUSTERING AND DIMENSIONALITY REDUCTION" />
+    <node id="REINFORCEMENT LEARNING" />
+    <node id="ROBOTICS AND GAME PLAYING" />
+    <node id="ENVIRONMENTS FOR REINFORCEMENT LEARNING" />
+    <node id="ALGORITHMS" />
+    <node id="STATISTICAL MODELS" />
+    <node id="TYPES OF MACHINE LEARNING" />
+    <node id="SUPERVISED LEARNING, UNSUPERVISED LEARNING, REINFORCEMENT LEARNING" />
+    <node id="ROBOTICS" />
+    <node id="GAME PLAYING" />
+    <node id="HEALTHCARE" />
+    <node id="FINANCIAL SERVICES" />
+    <node id="E-COMMERCE" />
+    <node id="NATURAL LANGUAGE PROCESSING" />
+    <node id="AUTONOMOUS VEHICLES" />
+    <node id="TRANSPORTATION" />
+    <node id="DATA" />
+    <node id="MODELS" />
+    <node id="ML ALGORITHMS" />
+    <node id="QUANTUM COMPUTING" />
+    <node id="EXPLAINABLE AI (XAI)" />
+    <node id="MACHINE LEARNING MODELS" />
+    <node id="MACHINE LEARNING ALGORITHMS" />
+    <node id="GRAPH NEURAL NETWORKS" />
+    <node id="DATA REPRESENTED AS GRAPHS" />
+    <node id="GRAPH CONVOLUTIONAL NETWORKS" />
+    <node id="CONVOLUTIONS ON NODES" />
+    <node id="GRAPH ATTENTION NETWORKS" />
+    <node id="ATTENTION MECHANISMS" />
+    <node id="GRAPH RECURRENT NEURAL NETWORKS" />
+    <node id="RECURRENT NEURAL NETWORK ARCHITECTURES" />
+    <node id="GATS" />
+    <node id="GRNNS" />
+    <node id="RECURRENT NEURAL NETWORKS" />
+    <node id="SOCIAL NETWORK ANALYSIS" />
+    <node id="USER BEHAVIOR" />
+    <node id="CHEMISTRY" />
+    <node id="MOLECULAR PROPERTIES" />
+    <node id="DRUG DISCOVERY" />
+    <node id="MATERIAL SCIENCE" />
+    <node id="KNOWLEDGE GRAPHS" />
+    <node id="SEARCH ENGINES" />
+    <node id="RECOMMENDATION SYSTEMS" />
+    <node id="ENTITY RECOGNITION" />
+    <node id="RELATIONSHIP EXTRACTION" />
+    <node id="FINANCE" />
+    <node id="FRAUD DETECTION" />
+    <node id="RISK ASSESSMENT" />
+    <node id="BIOLOGY" />
+    <node id="PROTEIN STRUCTURE PREDICTION" />
+    <node id="INTERACTION MODELING" />
+    <node id="FUTURE DIRECTIONS" />
+    <node id="MACHINE LEARNING PARADIGMS" />
+    <node id="AI" />
+    <node id="LECUN ET AL." />
+    <node id="CONVOLUTIONAL NEURAL NETWORKS" />
+    <node id="LENET" />
+    <node id="DIGIT RECOGNITION" />
+    <node id="LENET ARCHITECTURE" />
+    <node id="IMAGE CLASSIFICATION" />
+    <node id="OBJECT DETECTION" />
+    <node id="SEGMENTATION TASKS" />
+    <node id="NEURAL NETWORK" />
+    <node id="STRUCTURED GRID DATA" />
+    <node id="IMAGE" />
+    <node id="ALEXNET" />
+    <node id="IMAGENET" />
+    <node id="VGGNET" />
+    <node id="RESNET" />
+    <node id="YOLO" />
+    <node id="FASTER R-CNN" />
+    <node id="OLO (YOU ONLY LOOK ONCE)" />
+    <node id="CNN" />
+    <node id="X-RAYS, MRIS, CT SCANS" />
+    <node id="MEDICAL IMAGING" />
+    <node id="NEURAL NETWORKS" />
+    <node id="DEEP LEARNING" />
+    <node id="MARTIN SMITH" />
+    <node id="CENTRAL INSTITUTION" />
+    <node id="TECHGLOBAL" />
+    <node id="VISION HOLDINGS" />
+    <node id="CNNS" />
+    <node id="NAS" />
+    <node id="RNN" />
+    <node id="TRANSFORMER" />
+    <node id="CLIMATE SCIENCE" />
+    <node id="ART GENERATION" />
+    <node id="GENOMICS" />
+    <node id="ML" />
+    <node id="HYBRID MODELS" />
+    <node id="VASWANI ET AL." />
+    <node id="TRANSFORMER NEURAL NETWORKS" />
+    <node id="ATTENTION IS ALL YOU NEED" />
+    <node id="RNNS" />
+    <node id="APPLICATIONS OF TRANSFORMER NEURAL NETWORKS" />
+    <node id="CHALLENGES AND LIMITATIONS" />
+    <node id="ENCODER" />
+    <node id="DECODER" />
+    <node id="MULTI-HEAD SELF-ATTENTION MECHANISMS" />
+    <node id="POSITION-WISE FULLY CONNECTED FEED-FORWARD NETWORKS" />
+    <node id="SELF-ATTENTION MECHANISMS" />
+    <node id="COMPUTATIONAL REQUIREMENTS" />
+    <node id="MEMORY REQUIREMENTS" />
+    <node id="REFORMER, LINFORMER, LONGFORMER" />
+    <node id="SPEECH RECOGNITION" />
+    <node id="PROTEIN FOLDING" />
+    <node id="MACHINE LEARNING TASKS" />
+    <node id="STATE OF THE ART" />
+    <node id="TRANSFORMERS" />
+    <edge source="ARTIFICIAL INTELLIGENCE" target="MACHINE LEARNING">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="MACHINE LEARNING" target="ROBOTICS">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="MACHINE LEARNING" target="GAME PLAYING">
+      <data key="d0">14.0</data>
+    </edge>
+    <edge source="MACHINE LEARNING" target="AUTONOMOUS VEHICLES">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="MACHINE LEARNING" target="TRANSPORTATION">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="MACHINE LEARNING" target="ALGORITHMS">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="MACHINE LEARNING" target="NEURAL NETWORKS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SUPERVISED LEARNING" target="CLASSIFICATION AND REGRESSION TASKS">
+      <data key="d0">36.0</data>
+    </edge>
+    <edge source="UNSUPERVISED LEARNING" target="CLUSTERING AND DIMENSIONALITY REDUCTION">
+      <data key="d0">32.0</data>
+    </edge>
+    <edge source="REINFORCEMENT LEARNING" target="ROBOTICS AND GAME PLAYING">
+      <data key="d0">28.0</data>
+    </edge>
+    <edge source="ROBOTICS AND GAME PLAYING" target="ENVIRONMENTS FOR REINFORCEMENT LEARNING">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="ALGORITHMS" target="STATISTICAL MODELS">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="TYPES OF MACHINE LEARNING" target="SUPERVISED LEARNING, UNSUPERVISED LEARNING, REINFORCEMENT LEARNING">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="ROBOTICS" target="GAME PLAYING">
+      <data key="d0">12.0</data>
+    </edge>
+    <edge source="HEALTHCARE" target="FINANCIAL SERVICES">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="E-COMMERCE" target="NATURAL LANGUAGE PROCESSING">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="DATA" target="MODELS">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="ML ALGORITHMS" target="QUANTUM COMPUTING">
+      <data key="d0">32.0</data>
+    </edge>
+    <edge source="EXPLAINABLE AI (XAI)" target="MACHINE LEARNING MODELS">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="MACHINE LEARNING ALGORITHMS" target="GRAPH NEURAL NETWORKS">
+      <data key="d0">27.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="GATS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="GRNNS">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="SOCIAL NETWORK ANALYSIS">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="CHEMISTRY">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="FINANCE">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="BIOLOGY">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="FUTURE DIRECTIONS">
+      <data key="d0">36.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="MACHINE LEARNING PARADIGMS">
+      <data key="d0">3.0</data>
+    </edge>
+    <edge source="GRAPH NEURAL NETWORKS" target="AI">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="DATA REPRESENTED AS GRAPHS" target="GRAPH CONVOLUTIONAL NETWORKS">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="GRAPH CONVOLUTIONAL NETWORKS" target="CONVOLUTIONS ON NODES">
+      <data key="d0">32.0</data>
+    </edge>
+    <edge source="CONVOLUTIONS ON NODES" target="GRAPH ATTENTION NETWORKS">
+      <data key="d0">14.0</data>
+    </edge>
+    <edge source="GRAPH ATTENTION NETWORKS" target="ATTENTION MECHANISMS">
+      <data key="d0">28.0</data>
+    </edge>
+    <edge source="ATTENTION MECHANISMS" target="GRAPH RECURRENT NEURAL NETWORKS">
+      <data key="d0">2.0</data>
+    </edge>
+    <edge source="GRAPH RECURRENT NEURAL NETWORKS" target="RECURRENT NEURAL NETWORK ARCHITECTURES">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="GRNNS" target="RECURRENT NEURAL NETWORKS">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SOCIAL NETWORK ANALYSIS" target="USER BEHAVIOR">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHEMISTRY" target="MOLECULAR PROPERTIES">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="CHEMISTRY" target="DRUG DISCOVERY">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="CHEMISTRY" target="MATERIAL SCIENCE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="KNOWLEDGE GRAPHS" target="SEARCH ENGINES">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="KNOWLEDGE GRAPHS" target="RECOMMENDATION SYSTEMS">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="KNOWLEDGE GRAPHS" target="ENTITY RECOGNITION">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="KNOWLEDGE GRAPHS" target="RELATIONSHIP EXTRACTION">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FINANCE" target="FRAUD DETECTION">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FINANCE" target="RISK ASSESSMENT">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="BIOLOGY" target="PROTEIN STRUCTURE PREDICTION">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="BIOLOGY" target="INTERACTION MODELING">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FUTURE DIRECTIONS" target="TRANSFORMERS">
+      <data key="d0">38.0</data>
+    </edge>
+    <edge source="AI" target="GENOMICS">
+      <data key="d0">5.0</data>
+    </edge>
+    <edge source="AI" target="ML">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="AI" target="TRANSFORMERS">
+      <data key="d0">48.0</data>
+    </edge>
+    <edge source="LECUN ET AL." target="CONVOLUTIONAL NEURAL NETWORKS">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="LECUN ET AL." target="LENET">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="CONVOLUTIONAL NEURAL NETWORKS" target="LENET">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="CONVOLUTIONAL NEURAL NETWORKS" target="DIGIT RECOGNITION">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="CONVOLUTIONAL NEURAL NETWORKS" target="IMAGE CLASSIFICATION">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="CONVOLUTIONAL NEURAL NETWORKS" target="OBJECT DETECTION">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="CONVOLUTIONAL NEURAL NETWORKS" target="SEGMENTATION TASKS">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="CONVOLUTIONAL NEURAL NETWORKS" target="NEURAL NETWORK">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="DIGIT RECOGNITION" target="LENET ARCHITECTURE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="STRUCTURED GRID DATA" target="IMAGE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="ALEXNET" target="IMAGENET">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="IMAGENET" target="VGGNET">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="IMAGENET" target="RESNET">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="YOLO" target="FASTER R-CNN">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FASTER R-CNN" target="CNN">
+      <data key="d0">27.0</data>
+    </edge>
+    <edge source="OLO (YOU ONLY LOOK ONCE)" target="CNN">
+      <data key="d0">24.0</data>
+    </edge>
+    <edge source="CNN" target="RNN">
+      <data key="d0">12.0</data>
+    </edge>
+    <edge source="CNN" target="TRANSFORMER">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CNN" target="GENOMICS">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="CNN" target="HYBRID MODELS">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="X-RAYS, MRIS, CT SCANS" target="MEDICAL IMAGING">
+      <data key="d0">17.0</data>
+    </edge>
+    <edge source="NEURAL NETWORKS" target="DEEP LEARNING">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="MARTIN SMITH" target="CENTRAL INSTITUTION">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="TECHGLOBAL" target="VISION HOLDINGS">
+      <data key="d0">2.0</data>
+    </edge>
+    <edge source="CNNS" target="NAS">
+      <data key="d0">2.0</data>
+    </edge>
+    <edge source="CNNS" target="TRANSFORMER NEURAL NETWORKS">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="RNN" target="TRANSFORMER">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="RNN" target="CLIMATE SCIENCE">
+      <data key="d0">4.0</data>
+    </edge>
+    <edge source="TRANSFORMER" target="ART GENERATION">
+      <data key="d0">2.0</data>
+    </edge>
+    <edge source="CLIMATE SCIENCE" target="ML">
+      <data key="d0">4.0</data>
+    </edge>
+    <edge source="VASWANI ET AL." target="TRANSFORMER NEURAL NETWORKS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="VASWANI ET AL." target="ATTENTION IS ALL YOU NEED">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="RNNS">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="APPLICATIONS OF TRANSFORMER NEURAL NETWORKS">
+      <data key="d0">36.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="CHALLENGES AND LIMITATIONS">
+      <data key="d0">25.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="SELF-ATTENTION MECHANISMS">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="COMPUTATIONAL REQUIREMENTS">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="MEMORY REQUIREMENTS">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="REFORMER, LINFORMER, LONGFORMER">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="SPEECH RECOGNITION">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="TRANSFORMER NEURAL NETWORKS" target="PROTEIN FOLDING">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="ENCODER" target="DECODER">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="MULTI-HEAD SELF-ATTENTION MECHANISMS" target="POSITION-WISE FULLY CONNECTED FEED-FORWARD NETWORKS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="MACHINE LEARNING TASKS" target="STATE OF THE ART">
+      <data key="d0">9.0</data>
+    </edge>
+  </graph>
+</graphml>
